@@ -127,3 +127,63 @@ Content-Type: application/json
     "id":2,
     "operation":"-"
 }
+###
+GET http://localhost:4000/answers/get-answers-for-question/?id=1
+
+
+
+### revise section
+POST http://localhost:4000/revise/add-remainder
+Content-Type: application/json
+
+{
+    "question_id":1,
+    "user_id":4,
+    "completed":"NO",
+    "answer_id":"",
+    "posted_on":"2025-03-23 13:43:58.381344+00",
+    "posted_on_timestamp":0,
+    "completed_on":"2025-03-23 13:43:58.381344+00",
+    "completed_on_timestamp":0,
+    "priority":0,
+    "email":"uppinurigouthamreddy@gmail.com"
+}
+###
+GET http://localhost:4000/revise/get-user-remainders/?id=4
+###
+GET http://localhost:4000/revise
+###
+PUT http://localhost:4000/revise/mark-as-done
+Content-Type: application/json
+
+{
+    "id":1,
+    "completed_on":"2025-03-23 13:43:58.381344+00",
+    "completed_on_timestamp":0
+}
+###
+PUT http://localhost:4000/revise/mark-as-not-done
+Content-Type: application/json
+
+{
+    "id":1
+}
+###
+PUT http://localhost:4000/revise/update-task
+Content-Type: application/json
+
+{
+    "id":1,
+    "changes":[
+        {
+            "key":"posted_on_timestamp",
+            "value":"123"
+        },
+        {
+            "key":"priority",
+            "value":"5"
+        }
+    ]
+}
+###
+GET http://localhost:4000/revise/get-remainders-for-question/?question_id=2

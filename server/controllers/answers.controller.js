@@ -36,7 +36,6 @@ async function addAnswer(req,res)
     }
 }
 
-
 async function getAnswers(req, res) 
 {
     try {
@@ -81,7 +80,6 @@ async function getAnswers(req, res)
         });
     }
 }
-
 
 async function updateAnswer(req, res) {
     try {
@@ -176,5 +174,30 @@ async function changeRank(req,res){
     }
 }
 
+async function getAnswersForQuestion( req , res ){
+    try{
+        const { id } = req.query;
+        console.log(req.query)
+        const answers = await pool.query("SELECT * FROM answers WHERE question_id = $1 ORDER BY rank DESC" , [ id ] )
+        res.send({
+            data:{
+                success:true,
+                data:{
+                    answers:answers.rows,
+                    cnt:answers.rowCount,
+                    question_id:id
+                }
+            }
+        })
+    }catch(err){
+        res.send({
+            data:{
+                success:false,
+                error:err.message
+            }
+        })
+    }
+}
 
-module.exports = { addAnswer , getAnswers , updateAnswer , deleteAnswer , changeRank  }
+
+module.exports = { addAnswer , getAnswers , updateAnswer , deleteAnswer , changeRank , getAnswersForQuestion  }

@@ -6,6 +6,7 @@ const usersAPI = require("./routes/users.route")
 const adminAPI = require("./routes/admin.route")
 const questionsAPI = require("./routes/questions.route")
 const answersAPI = require("./routes/answers.route")
+const reviseAPI = require("./routes/revise.route")
 require("dotenv").config()
 const app = exp()
 
@@ -20,6 +21,7 @@ app.use('/users' , usersAPI)
 app.use('/admin' , adminAPI )
 app.use('/questions' , questionsAPI)
 app.use('/answers' , answersAPI);
+app.use('/revise' , reviseAPI);
 
 
 // others
