@@ -64,7 +64,7 @@ async function getRemainders(req,res)
 async function addRemainder(req,res)
 {
     try{
-        const { question_id , user_id , completed  , posted_on , posted_on_timestamp , completed_on , completed_on_timestamp , priority , email  } = req.body;
+        const { question_id , user_id , completed  , posted_on , posted_on_timestamp , completed_on , completed_on_timestamp , priority , email , window_size } = req.body;
 
         const status = await pool.query("INSERT INTO revise( question_id , user_id , completed  , posted_on , posted_on_timestamp , completed_on , completed_on_timestamp , priority , email ) values( $1,$2,$3,$4,$5,$6,$7,$8,$9 ) RETURNING *;" , [ 
             question_id,
@@ -77,6 +77,12 @@ async function addRemainder(req,res)
             priority,
             email
          ] )
+
+         await pool.query("INSERT INTO cron_jobs( time_scheduled_to_do , revise_id , window_size ) values();" , [
+            posted_on_timestamp+window_size ,
+            status.rows[0].id,
+            window_size
+         ])
 
          res.send({
             data:{
