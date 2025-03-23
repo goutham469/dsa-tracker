@@ -3,6 +3,9 @@ const CORS = require("cors")
 const encrypt = require("./middlewares/encrypt")
 const decrypt = require("./middlewares/decrypt")
 const usersAPI = require("./routes/users.route")
+const adminAPI = require("./routes/admin.route")
+const questionsAPI = require("./routes/questions.route")
+const answersAPI = require("./routes/answers.route")
 require("dotenv").config()
 const app = exp()
 
@@ -14,6 +17,9 @@ app.use(CORS())
 app.get('/' , (req,res) => res.send("root level"))
 
 app.use('/users' , usersAPI)
+app.use('/admin' , adminAPI )
+app.use('/questions' , questionsAPI)
+app.use('/answers' , answersAPI);
 
 
 // others

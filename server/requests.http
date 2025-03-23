@@ -2,8 +2,128 @@ POST http://localhost:4000/users/login
 Content-Type: application/json
 
 {
-    "email":"goutham",
-    "url":"url",
-    "device":"",
-    "type":"google-auth"
+    "email":"uppinurigouthamreddy@gmail.com",
+    "device":"RMX 2030",
+    "type":"google-auth",
+    "image":"url",
+    "name":"gouth",
+    "time":"12"
+}
+###
+POST http://localhost:4000/users/login
+Content-Type: application/json
+
+{
+    "device":"samsung s23 ultra",
+    "type":"username-password",
+    "time":"12",
+    "username":"85tj2cx4",
+    "password":"0wogwca4"
+}
+###
+PUT http://localhost:4000/users/update-user-details
+Content-Type: application/json
+
+{
+    "id":4,
+    "changes":[
+        {
+            "key":"password",
+            "value":"123"
+        }
+    ]
+}
+### admin section
+DELETE http://localhost:4000/admin/delete-user
+Content-Type: application/json
+
+{
+    "id":3
+}
+###
+GET http://localhost:4000/admin/all-users
+
+
+### Question section
+GET http://localhost:4000/questions?limit=10
+###
+POST http://localhost:4000/questions/add-question
+Content-Type: application/json
+
+{
+    "user_id":4,
+    "question":"5th question",
+    "public":"NO",
+    "platform":"leetcode",
+    "type":"problem",
+    "images":"",
+    "companies":"['microsoft' , 'google', 'ibm']",
+    "link":"https://",
+    "postedOn":"new Date()",
+    "timestamp":0
+}
+###
+PUT http://localhost:4000/questions/change-visibility-to-public
+Content-Type: application/json
+
+{
+    "id":2
+}
+###
+PUT http://localhost:4000/questions/mark-as-incomplete
+Content-Type: application/json
+
+{
+    "id":2
+}
+
+###    answers section
+POST http://localhost:4000/answers/add-answer
+Content-Type: application/json
+
+{
+    "question_id":1,
+    "user_id":4,
+    "code":"code2 goes here",
+    "images":"images JSON() arraay",
+    "link":"external solution link",
+    "reference":"external helpful resources , separated by \n",
+    "postedOn":"2025-03-23 09:24:45.120336+00",
+    "timestamp":0
+}
+###
+GET http://localhost:4000/answers/?search=code&limit=10
+
+###
+PUT http://localhost:4000/answers/update-answer
+Content-Type: application/json
+
+{
+    "id":2,
+    "changes":[
+        {
+            "key":"code",
+            "value":"modified code goes here"
+        },
+        {
+            "key":"images",
+            "value":"modied images array goes here"
+        }
+    ]
+}
+
+###
+DELETE http://localhost:4000/answers/delete-answer
+Content-Type: application/json
+
+{
+    "id":1
+}
+###
+PUT http://localhost:4000/answers/update-rank
+Content-Type: application/json
+
+{
+    "id":2,
+    "operation":"-"
 }
