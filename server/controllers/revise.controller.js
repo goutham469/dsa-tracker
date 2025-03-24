@@ -78,7 +78,7 @@ async function addRemainder(req,res)
             email
          ] )
 
-         await pool.query("INSERT INTO cron_jobs( time_scheduled_to_do , revise_id , window_size ) values();" , [
+         await pool.query("INSERT INTO cron_jobs( time_scheduled_to_do , revise_id , window_size ) values($1,$2,$3);" , [
             posted_on_timestamp+window_size ,
             status.rows[0].id,
             window_size

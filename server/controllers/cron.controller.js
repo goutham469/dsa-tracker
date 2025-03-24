@@ -14,41 +14,41 @@ async function createCronJob(req,res){
     }
 }
 
-async function allCronJobs(req,res){
-    try{
-        
-        const limit = req.query.limit ? req.query.limit : 10;
-        const page = req.query.page ? req.query.page * limit : 0;
+async function allCronJobs(req, res) {
+    try {
+        const limit = parseInt(req.query.limit) || 10;
+        const page = req.query.page ? (parseInt(req.query.page)) * limit : 0;
 
-        let jobs = null;
-        if(req.query.sent == 'YES'){
-            jobs = await pool.query("SELECT * FROM cron_jobs WHERE sent = $1 ORDER BY time_scheduled OFFSET=$2 LIMIT=$3 ;" , [ 'YES' , page , limit ] )
-        }else if(req.query.sent == 'NO'){
-            jobs = await pool.query("SELECT * FROM cron_jobs WHERE sent = $1 ORDER BY time_scheduled OFFSET=$2 LIMIT=$3 ;" , [ 'NO' , page , limit ] )
-        }else{
-            jobs = await pool.query("SELECT * FROM cron_jobs ORDER BY time_scheduled OFFSET=$1 LIMIT=$2 ;" , [  page , limit ] )
+        let jobs;
+        if (req.query.sent === 'YES' || req.query.sent === 'NO') {
+            jobs = await pool.query(
+                "SELECT * FROM cron_jobs WHERE sent = $1 ORDER BY time_scheduled_to_do DESC OFFSET $2 LIMIT $3;",
+                [req.query.sent, page, limit]
+            );
+        } else {
+            jobs = await pool.query(
+                "SELECT * FROM cron_jobs ORDER BY time_scheduled_to_do DESC OFFSET $1 LIMIT $2;",
+                [page, limit]
+            );
         }
 
-        res.send({
-            data:{
-                success:true,
-                data:{
-                    query:req.query,
-                    jobs:jobs.rows,
-                    cnt:jobs.rowCount
-                }
+        res.json({
+            success: true,
+            data: {
+                query: req.query,
+                jobs: jobs.rows,
+                cnt: jobs.rowCount
             }
-        })
+        });
 
-    }catch(err){
-        res.send({
-            data:{
-                success:false,
-                error:err.message
-            }
-        })
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            error: err.message
+        });
     }
 }
+
 
 async function updateCronJobAsDone(req,res){
     try{
