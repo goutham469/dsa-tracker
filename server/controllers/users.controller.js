@@ -21,7 +21,10 @@ async function loginController(req, res)
 
             if (data.length > 0) // Fix the condition
             {
-                res.send({ data: "login success" });
+                res.send({ data: {
+                    success:true,
+                    message:"login success"
+                } });
             } 
             else 
             {
@@ -44,13 +47,19 @@ async function loginController(req, res)
                 // console.log(template);
                 
                 await sendEmail(email, "WELCOME to DSA GYM", template);
-                res.send({ data: "new registration success" });
+                res.send({ data: {
+                    success:true,
+                    message:"new registration success"
+                } });
             }
         } 
         catch (err) 
         {
             console.error(err);
-            res.send({ data: err });
+            res.send({ data: {
+                success:false,
+                error:err
+            } });
         }
     }
     else if(req.body?.type == "username-password")
@@ -84,19 +93,21 @@ async function loginController(req, res)
                     );
                 }
 
-                res.send({ success: true, message: "Login successful" });
+                res.send( { data : { success: true, message: "Login successful" }} );
             } 
             else 
             {
-                res.send({ success: false, message: "Invalid username or password" });
+                res.send({ data: { success: false, message: "Invalid username or password" }} );
             }
         } 
         catch (err) 
         {
             console.error("Login error:", err);
-            res.send({ 
-                success: false, 
-                error: err.message 
+            res.send({
+                data:{ 
+                    success: false, 
+                    error: err.message 
+                }
             });
         }
 
